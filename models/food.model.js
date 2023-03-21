@@ -1,18 +1,14 @@
-const { default: mongoose } = require("mongoose");
+const { default: mongoose, Schema } = require("mongoose");
 
 const foodSchema = new mongoose.Schema(
   {
     foodName: {
       type: String,
-      unique: true,
     },
     foodPrice: Number,
-    createdOn: {
-      type: Date,
-      default: Date.now,
-    },
+    categoryId: [{ type: Schema.Types.ObjectId, ref: "Category" }],
   },
-  { collection: "tblFood" }
+  { collection: "clFood", timestamps: true }
 );
 
 const Food = mongoose.model("Food", foodSchema);

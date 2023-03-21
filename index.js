@@ -3,19 +3,23 @@ const cors = require("cors");
 const port = 8000;
 const app = express();
 const mongoose = require("mongoose");
+const dotenv = require("dotenv");
+
+dotenv.config();
 
 const foodRoute = require("./routes/food.routes");
+const categoryRoute = require("./routes/category.routes");
+
 app.use(cors());
+app.use(express.json());
 
 mongoose
-  .connect(
-    "mongodb+srv://OG:xNFMEzIi32BXrVoB@cluster1.rky0szy.mongodb.net/DeliveryDB"
-  )
-
+  .connect(process.env.MONGO_DB_URI)
   .then(() => console.log("Database successfully connected"))
   .catch((err) => console.log(err));
 
-app.use("/food", foodRoute);
+app.use("/api", foodRoute);
+app.use("/api", categoryRoute);
 
 app.get("/api", (req, res) => {
   res.json("Welcome to API");
